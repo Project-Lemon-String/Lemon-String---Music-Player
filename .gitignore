@@ -1,2 +1,7 @@
+# Folders
 .gradle
 build
+bin
+
+# Files
+.project
