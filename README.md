@@ -26,7 +26,7 @@ gradle -v
 ```
 5. CD into project directory, build project
 ```
-gradlew run
+.\gradlew run
 ```
 6. Profit ???
 
