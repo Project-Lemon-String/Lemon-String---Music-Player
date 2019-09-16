@@ -32,26 +32,27 @@ public class LoginController implements Initializable {
     private Text linkSignup;
 
     @FXML
-    void login(MouseEvent event) {
-        //if(tf_username.getText() == "Bryan"){
-        //    if(tf_password.getText() == "password"){
-            /*
+    void login(MouseEvent event) throws Exception{
+
+        if(tf_username.getText() != "Bryan"){
+            //if(tf_password.getText() == "password"){
+            System.out.println("Pass");
             Parent root = FXMLLoader.load(getClass().getResource("/home.fxml"));
             Stage stage = (Stage) btnLogin.getScene().getWindow();
             stage.setScene(new Scene(root));
-            */
-        //    }
-        //}
+            
+            //}
+        }else{
+            System.out.println("Failed to signin - current username:" + tf_username.getText() + "test");
+        }
     }
 
     @FXML
-    void signup(MouseEvent event){
-        /*
+    void signup(MouseEvent event) throws Exception{
+        System.out.println("Signup!");
         Parent root = FXMLLoader.load(getClass().getResource("/signup.fxml"));
-        Node node = (Node) event.getSource();
-        Stage stage = (Stage) node.getScene().getWindow();
+        Stage stage = (Stage) linkSignup.getScene().getWindow();
         stage.setScene(new Scene(root));
-        */
     }
 
     public void initialize(URL location, ResourceBundle resources){
