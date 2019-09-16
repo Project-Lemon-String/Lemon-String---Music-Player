@@ -10,6 +10,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Button;
+import javafx.scene.text.Text;
 import javafx.scene.input.MouseEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -24,13 +26,18 @@ public class LoginController implements Initializable {
     private PasswordField tf_password;
 
     @FXML
+    private Button btnLogin;
+
+    @FXML
+    private Text linkSignup;
+
+    @FXML
     void login(MouseEvent event) {
         //if(tf_username.getText() == "Bryan"){
         //    if(tf_password.getText() == "password"){
             /*
             Parent root = FXMLLoader.load(getClass().getResource("/home.fxml"));
-            Node node = (Node) event.getSource();
-            Stage stage = (Stage) node.getScene().getWindow();
+            Stage stage = (Stage) btnLogin.getScene().getWindow();
             stage.setScene(new Scene(root));
             */
         //    }

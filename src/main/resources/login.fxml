@@ -55,7 +55,7 @@ fx:controller="LoginController">
                         </HBox>
                         <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="50.0" prefWidth="450.0">
                            <children>
-                              <PasswordField prefHeight="50.0" prefWidth="500.0" promptText="Password" style="-fx-background-color: white; -fx-border-color: #B0D1ff; -fx-border-width: 0px 0px 2px 0px;">
+                              <PasswordField fx:id="tf_password" prefHeight="50.0" prefWidth="500.0" promptText="Password" style="-fx-background-color: white; -fx-border-color: #B0D1ff; -fx-border-width: 0px 0px 2px 0px;">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
@@ -65,7 +65,7 @@ fx:controller="LoginController">
                               </PasswordField>
                            </children>
                         </HBox>
-                        <Button mnemonicParsing="false" onMouseClicked="#login" prefHeight="40.0" prefWidth="220.0" style="-fx-background-color: #2774DF; -fx-background-radius: 100px; -fx-text-fill: white;" text="Login">
+                        <Button fx:id="btnLogin" mnemonicParsing="false" onMouseClicked="#login" prefHeight="40.0" prefWidth="220.0" style="-fx-background-color: #2774DF; -fx-background-radius: 100px; -fx-text-fill: white;" text="Login">
                            <VBox.margin>
                               <Insets top="50.0" />
                            </VBox.margin>
@@ -83,7 +83,7 @@ fx:controller="LoginController">
                                     <Insets />
                                  </HBox.margin>
                               </Text>
-                              <Text fill="#2774df" onMouseClicked="#signup" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Noto Sans; -fx-font-weight: 700;" text="Signup">
+                              <Text fx:id="linkSignup" fill="#2774df" onMouseClicked="#signup" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Noto Sans; -fx-font-weight: 700;" text="Signup">
                                  <font>
                                     <Font name="System Bold" size="21.0" />
                                  </font>
