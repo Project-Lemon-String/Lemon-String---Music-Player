@@ -3,6 +3,7 @@
 .settings
 build
 bin
+src/views
 
 # Files
 .project
