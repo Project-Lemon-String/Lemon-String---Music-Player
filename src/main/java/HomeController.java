@@ -35,12 +35,8 @@ public class HomeController implements Initializable {
     @FXML
     void playMusic(MouseEvent event) throws Exception{
         //add multihtreading
-                try{
-                    FileInputStream fis = new FileInputStream("imperial.mp3");
-                    Player playMP3 = new Player(fis);
-                    playMP3.play();
-                }
-                catch(Exception e){}
+        PlaySong ps = new PlaySong();
+        new Thread(ps).start();
 
     }
 
