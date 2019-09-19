@@ -41,6 +41,8 @@ public class SearchController implements Initializable{
     @FXML
     void search(MouseEvent event) throws Exception{
 
+        CurrentUserData.songSearchListItems.clear();
+
         String keyword = tf_search.getText();
 
         JsonParser jsonParser =  new JsonParser();
