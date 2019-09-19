@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <StackPane prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <children>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <VBox style="-fx-background-color: #2774DF;" HBox.hgrow="ALWAYS" />
+                  <VBox prefWidth="200.0" style="-fx-background-color: #ffffff;" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+            <VBox alignment="CENTER_RIGHT">
+               <StackPane.margin>
+                  <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+               </StackPane.margin>
+               <children>
+                  <VBox alignment="TOP_CENTER" maxHeight="-Infinity" prefHeight="650.0" style="-fx-background-color: #f8f8f8;">
+                     <effect>
+                        <DropShadow color="#0e2a52" />
+                     </effect>
+                     <children>
+                        <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="50.0" prefWidth="850.0">
+                           <children>
+                              <Text fx:id="linkHome" onMouseClicked="#switchToHome" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 3em; -fx-font-weight: bold; -fx-font-family: Noto Sans; -fx-fill: #2774df;" text="Home">
+                                 <HBox.margin>
+                                    <Insets right="25.0" />
+                                 </HBox.margin></Text>
+                              <Text fx:id="linkProfile" onMouseClicked="#switchToProfile" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 3em; -fx-font-weight: bold; -fx-font-family: Noto Sans; -fx-fill: #2774df;" text="Profile">
+                                 <HBox.margin>
+                                    <Insets right="25.0" />
+                                 </HBox.margin>
+                              </Text>
+                              <Text fx:id="linkSearch" onMouseClicked="#switchToSearch" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 3em; -fx-font-weight: bold; -fx-font-family: Noto Sans; -fx-fill: #2774df;" text="Search" />
+                           </children>
+                        </HBox>
+                        <Text fx:id="profileTitle" strokeType="OUTSIDE" strokeWidth="0.0" text="Blank's Profile &amp; Playlists&#10;" textAlignment="CENTER">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="15.0" />
+                           </VBox.margin>
+                        </Text>
+                        <ImageView fx:id="profileIcon" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../images/imperial.png" />
+                           </image>
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </ImageView>
+                        <HBox alignment="CENTER" prefHeight="275.0" prefWidth="200.0">
+                           <children>
+                              <ListView fx:id="listForPlaylists" maxWidth="500.0" prefHeight="500.0" prefWidth="500.0">
+                                 <HBox.margin>
+                                    <Insets right="25.0" />
+                                 </HBox.margin>
+                              </ListView>
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Button fx:id="btnAdd" mnemonicParsing="false" onMouseClicked="#addPlaylist" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: #2774DF; -fx-background-radius: 200px; -fx-text-fill: white;" text="+">
+                                       <font>
+                                          <Font name="Arial Black" size="20.0" />
+                                       </font>
+                                    </Button>
+                                    <Button fx:id="btnRemove" mnemonicParsing="false" onMouseClicked="#removePlaylist" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: red; -fx-background-radius: 200px; -fx-text-fill: white;" text="X">
+                                       <font>
+                                          <Font name="Arial Black" size="20.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets top="15.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </VBox>
+               </children>
+            </VBox>
+            <StackPane prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <HBox alignment="TOP_RIGHT" maxHeight="300.0" maxWidth="500.0" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #f3f3f3; -fx-border-color: black; -fx-border-width: 5px 5px 5px 5px;" />
+                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Button fx:id="exitButton" alignment="CENTER_RIGHT" mnemonicParsing="false" onMouseClicked="#returnToProfile" style="-fx-background-color: #2f2f2f;" text="X" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="-235.0" right="-430.0" top="220.0" />
+                           </VBox.margin>
+                        </Button>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Playlist Name:">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="30.0" top="275.0" />
+                           </VBox.margin>
+                        </Text>
+                        <TextField fx:id="playlistField" maxHeight="50.0" maxWidth="350.0" promptText="Playlist Name" style="-fx-background-color: white; -fx-border-color: gray; -fx-border-width: 0 px 0px 2px 0px;">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </TextField>
+                        <Button fx:id="btnCreate" mnemonicParsing="false" onMouseClicked="#createPlaylist" style="-fx-background-color: lightblue; -fx-border-color: skyblue; -fx-border-width: 0px 0px 2px 0px;" text="Create">
+                           <VBox.margin>
+                              <Insets top="15.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </VBox>
+               </children>
+            </StackPane>
+         </children>
+      </StackPane>
+   </children>
+   <effect>
+      <DropShadow />
+   </effect>
+</AnchorPane>

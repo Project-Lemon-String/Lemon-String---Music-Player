@@ -1,0 +1,22 @@
+{
+  "Bryan": {
+    "email": "Bryan@gmail.com",
+    "password": "password",
+    "playlists": ["One Playlist"]
+  },
+  "Adam": {
+    "email": "Warlock@gmail.com",
+    "password": "hunter1",
+    "playlists": ["A", "B", "C"]
+  },
+  "Matt": {
+    "email": "m@m.com",
+    "password": "pass!!",
+    "playlists": []
+  },
+  "User": {
+    "email": "test@test.com",
+    "password": "test",
+    "playlists": ["A Playlist", "B Playlist"]
+  }
+}
