@@ -78,6 +78,7 @@ public class ProfileController implements Initializable {
 
     public void initialize(URL location, ResourceBundle resources){
         listForPlaylists.setItems(CurrentUserData.playlistItems);
+        profileTitle.setText(CurrentUserData.userSignedIn + "'s Profile & Playlist(s)\n");
     }
 
 }

@@ -19,7 +19,6 @@ import java.util.ResourceBundle;
 import java.util.*;
 import java.io.*;
 import com.google.gson.*;
-import org.json.JSONArray;
 
 public class LoginController implements Initializable {
 
@@ -86,12 +85,15 @@ public class LoginController implements Initializable {
 
                 CurrentUserData.playlist = gson.fromJson(playlistTemp, ArrayList.class);
                 CurrentUserData.playlistItems = FXCollections.observableArrayList(CurrentUserData.playlist);
+
+                CurrentUserData.songSearchList = new ArrayList<>();
+                CurrentUserData.songSearchListItems = FXCollections.observableArrayList(CurrentUserData.songSearchList);
             }
             catch(Exception e){
 
             }
 
-            
+            //Debuggin Output
             System.out.println(CurrentUserData.userSignedIn);
             System.out.println(CurrentUserData.currentUser);
             System.out.println(CurrentUserData.playlist);

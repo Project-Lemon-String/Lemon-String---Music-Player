@@ -2,12 +2,20 @@
   "Bryan": {
     "email": "Bryan@gmail.com",
     "password": "password",
-    "playlists": ["One Playlist"]
+    "playlists": [
+      "One Playlist"
+    ]
   },
   "Adam": {
     "email": "Warlock@gmail.com",
     "password": "hunter1",
-    "playlists": ["A", "B", "C"]
+    "playlists": [
+      "A",
+      "C",
+      "EEEE",
+      "D",
+      "d"
+    ]
   },
   "Matt": {
     "email": "m@m.com",
@@ -17,6 +25,18 @@
   "User": {
     "email": "test@test.com",
     "password": "test",
-    "playlists": ["A Playlist", "B Playlist"]
+    "playlists": [
+      "A Playlist",
+      "B Playlist"
+    ]
+  },
+  "Jose": {
+    "email": "p@p.com",
+    "password": "pass",
+    "playlists": [
+      "A",
+      "V",
+      "B"
+    ]
   }
 }

@@ -8,5 +8,6 @@ public class CurrentUserData{
     public static JsonObject currentUser;
     public static ArrayList<String> playlist;
     public static ObservableList<String> playlistItems;
-
+    public static ArrayList<String> songSearchList;
+    public static ObservableList<String> songSearchListItems;
 }
