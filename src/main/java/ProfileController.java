@@ -76,6 +76,7 @@ public class ProfileController implements Initializable {
         stage.setScene(new Scene(root));
     }
 
+    // Required function in case any logic is needed before rendering the view.
     public void initialize(URL location, ResourceBundle resources){
         listForPlaylists.setItems(CurrentUserData.playlistItems);
         profileTitle.setText(CurrentUserData.userSignedIn + "'s Profile & Playlist(s)\n");

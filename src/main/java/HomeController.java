@@ -54,6 +54,7 @@ public class HomeController implements Initializable {
         stage.setScene(new Scene(root));
     }
 
+    // Required function in case any logic is needed before rendering the view.
     public void initialize(URL location, ResourceBundle resources){
         
     }

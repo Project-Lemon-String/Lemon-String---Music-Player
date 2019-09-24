@@ -1,5 +1,5 @@
 
-import javafx.application.Application;
+
 import javafx.collections.FXCollections;
 import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
@@ -7,8 +7,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
@@ -22,6 +20,7 @@ import com.google.gson.*;
 
 public class LoginController implements Initializable {
 
+    // Fields from view
     @FXML
     private TextField tf_username;
 
@@ -41,11 +40,10 @@ public class LoginController implements Initializable {
         String userFile = "users.json";
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-        //Open file
+        // Open file
         JsonParser jsonParser = new JsonParser();
         try(FileReader fileReader = new FileReader((userFile));){
             userList = jsonParser.parse(fileReader).getAsJsonObject();
-            System.out.println("YAY WE OPENED FILE");
         }
         catch(FileNotFoundException e){
             e.printStackTrace();//System.out.println("File Not Found");
@@ -56,10 +54,11 @@ public class LoginController implements Initializable {
         catch (Exception e){ //e.printStackTrace();
         }
 
+        // Flags to keep track of failedLogin
         boolean failedLogin = false;
-        boolean userExists = false;
         JsonObject user;
-        //Check if user exists
+
+        //Check if user exists and if password matches our users.json
         try {
             user = userList.get(tf_username.getText()).getAsJsonObject();
             CurrentUserData.currentUser = user;
@@ -78,6 +77,7 @@ public class LoginController implements Initializable {
         }
         catch(Exception e){}
 
+        // If login credentials were correct then we save it in our global variables
         if(!failedLogin){
             try{
                 CurrentUserData.userSignedIn = tf_username.getText();
@@ -89,26 +89,22 @@ public class LoginController implements Initializable {
                 CurrentUserData.songSearchList = new ArrayList<>();
                 CurrentUserData.songSearchListItems = FXCollections.observableArrayList(CurrentUserData.songSearchList);
             }
-            catch(Exception e){
+            catch(Exception e){}
 
-            }
-
-            //Debuggin Output
-            System.out.println(CurrentUserData.userSignedIn);
-            System.out.println(CurrentUserData.currentUser);
-            System.out.println(CurrentUserData.playlist);
-            System.out.println(CurrentUserData.playlistItems);
-
+            // Generate home view if login is correct
             Parent root = FXMLLoader.load(getClass().getResource("/home.fxml"));
             Stage stage = (Stage) btnLogin.getScene().getWindow();
             stage.setScene(new Scene(root));
-        }else{
+        }
+        else{
+            //Generate our login failed view is failed.
             Parent root = FXMLLoader.load(getClass().getResource("/login_failed.fxml"));
             Stage stage = (Stage) btnLogin.getScene().getWindow();
             stage.setScene(new Scene(root));
         }
     }
 
+    // Switches to signup view
     @FXML
     void signup(MouseEvent event) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("/signup.fxml"));
@@ -116,6 +112,7 @@ public class LoginController implements Initializable {
         stage.setScene(new Scene(root));
     }
 
+    // Required function in case any logic is needed before rendering the view.
     public void initialize(URL location, ResourceBundle resources){
 
     }

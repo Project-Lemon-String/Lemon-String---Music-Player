@@ -130,6 +130,7 @@ public class CreatePlaylistController implements Initializable{
 
     }
 
+    // Required function in case any logic is needed before rendering the view.
     public void initialize(URL location, ResourceBundle resources){
         profileTitle.setText(CurrentUserData.userSignedIn + "'s Profile & Playlist(s)\n");
     }

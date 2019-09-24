@@ -5,12 +5,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
-
-
 public class Main extends Application {
 
+    // Main loads our login view initially
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/login.fxml"));
@@ -20,6 +17,7 @@ public class Main extends Application {
         primaryStage.show();
     }
 
+    // Launch start()
     public static void main(String[] args) {
         launch(args);
     }

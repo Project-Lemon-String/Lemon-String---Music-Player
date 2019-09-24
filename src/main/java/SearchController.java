@@ -99,6 +99,7 @@ public class SearchController implements Initializable{
 
     }
 
+    // Required function in case any logic is needed before rendering the view.
     public void initialize(URL location, ResourceBundle resources){
         listForSongs.setItems(CurrentUserData.songSearchListItems);
     }
