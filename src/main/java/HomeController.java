@@ -12,7 +12,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 import javafx.scene.input.MouseEvent;
-
 import java.io.FileInputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -20,6 +19,7 @@ import javazoom.jl.player.Player;
 
 public class HomeController implements Initializable {
 
+    // Fields from view
     @FXML
     private Text linkHome;
 
@@ -32,6 +32,8 @@ public class HomeController implements Initializable {
     @FXML
     private Button btnPlay;
 
+    // Sample play button that is multithreaded so it doesn't pause the program for now.
+    // Need to implement pause feature and it's view.
     @FXML
     void playMusic(MouseEvent event) throws Exception{
         //add multihtreading
@@ -40,6 +42,7 @@ public class HomeController implements Initializable {
 
     }
 
+    // Switches to the Profile page view.
     @FXML
     void switchToProfile(MouseEvent event) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("/profile.fxml"));
@@ -47,6 +50,7 @@ public class HomeController implements Initializable {
         stage.setScene(new Scene(root));
     }
 
+    // Switches to the Search page view.
     @FXML
     void switchToSearch(MouseEvent event) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("/search.fxml"));

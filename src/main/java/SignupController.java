@@ -11,12 +11,12 @@ import javafx.scene.text.Text;
 import javafx.scene.input.MouseEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.*;
 import java.io.*;
 import com.google.gson.*;
 
 public class SignupController implements Initializable {
 
+    // Fields from view
     @FXML
     private TextField tf_username;
 
@@ -32,6 +32,7 @@ public class SignupController implements Initializable {
     @FXML
     private Text linkLogin;
 
+    // Switches to the login view.
     @FXML
     void login(MouseEvent event) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/login.fxml"));
@@ -41,16 +42,16 @@ public class SignupController implements Initializable {
 
     @FXML
     void signup(MouseEvent event) throws Exception {
-        //Create JSON
+
+        //Create JSON and GSON objects
         JsonObject userList = new JsonObject();
         String userFile = "users.json";
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-        //Open file
+        //Open file and gather list of users from users.json
         JsonParser jsonParser = new JsonParser();
         try(FileReader fileReader = new FileReader((userFile));){
             userList = jsonParser.parse(fileReader).getAsJsonObject();
-            System.out.println("YAY WE OPENED FILE");
         }
         catch(FileNotFoundException e){
             e.printStackTrace();//System.out.println("File Not Found");
@@ -61,14 +62,16 @@ public class SignupController implements Initializable {
         catch (Exception e){ //e.printStackTrace();
         }
 
-        
+        // Saving our email and pass in a JSONObject
         JsonObject userDetails = new JsonObject();
         userDetails.addProperty("email", tf_email.getText());
         userDetails.addProperty("password", pf_password.getText());
         
+        // Create a playlist object in our current user to keep track of their playlists.
         JsonArray playlist = new JsonArray();
         userDetails.add("playlists", playlist);
 
+        // User exists flag
         boolean userExists = false;
 
         //Check if user exists
@@ -79,6 +82,8 @@ public class SignupController implements Initializable {
         catch (NullPointerException e){}
         catch (Exception e){}
 
+        // if user doesn't exist, don't add it and error out.
+        // if user does exist, add user.
         if(!userExists){
             userList.add(tf_username.getText(), userDetails);
             

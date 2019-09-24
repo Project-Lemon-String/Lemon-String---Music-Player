@@ -20,6 +20,7 @@ import com.google.gson.*;
 
 public class DeletePlaylistController implements Initializable{
 
+    // Fields from view
     @FXML
     private Text linkHome;
 

@@ -1,5 +1,3 @@
-
-
 import javafx.collections.FXCollections;
 import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
