@@ -30,14 +30,6 @@ gradle -v
 ```
 6. Profit ???
 
-## Back-log
-
-* Users need to sign in the system.
-* Each user has a profile with the list of play list. Use Json objects.
-* Users can create and delete play lists.
-* Users can make any search by artist or song. Other keys are a plus.
-* Users can play a song.
-
 ## Contributers
 
 * Bryan Rojas
