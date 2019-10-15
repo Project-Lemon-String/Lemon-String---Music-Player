@@ -17,6 +17,7 @@ import java.util.ResourceBundle;
 import javafx.collections.*;
 import java.io.*;
 import com.google.gson.*;
+import java.net.*;
 
 public class DeletePlaylistController implements Initializable{
 
@@ -61,44 +62,52 @@ public class DeletePlaylistController implements Initializable{
 
     @FXML
     void deletePlaylist(MouseEvent event) throws Exception {
-        JsonObject userList = new JsonObject();
-        String userFile = "users.json";
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
-        //Open file
+        Gson gson = new Gson();
         JsonParser jsonParser = new JsonParser();
-        try(FileReader fileReader = new FileReader((userFile));){
-            userList = jsonParser.parse(fileReader).getAsJsonObject();
-            System.out.println("YAY WE OPENED FILE");
+
+        try{
+            String json = "{\r\n        \"remoteMethod\":\"deletePlaylist\",\r\n        \"objectName\":\"UserServices\",\r\n        \"param\": {\r\n            \"username\": \"" + CurrentUserData.userSignedIn + "\",\r\n            \"playlistName\": \"" + playlistField.getText() + "\"\r\n        },\r\n        \"return\": \"java.lang.String\"\r\n    }";
+            // getting localhost ip 
+            InetAddress ip = InetAddress.getByName("localhost"); 
+            byte[] buffer = json.getBytes();
+            // obtaining input and out streams 
+            DatagramPacket packet = new DatagramPacket(buffer, buffer.length, ip, 1337); 
+            DatagramSocket ds = new DatagramSocket(); 
+            ds.send(packet);
+            byte[] buf = new byte[8192];
+            DatagramPacket p = new DatagramPacket(buf, buf.length);
+            ds.receive(p);
+            String outty = new String(buf, 0, p.getLength());
+            JsonObject jo = (JsonObject) jsonParser.parse(outty);
+            System.out.println(jo);
+            String result = jo.get("ret").getAsString();
+
+            //CurrentUserData.currentUser = jo.get("userData").getAsString();
+            try{
+                String userDataStr = jo.get("userData").getAsString();
+                CurrentUserData.currentUser = new JsonParser().parse(userDataStr).getAsJsonObject();
+            }
+            catch(Exception e){
+            }
+
         }
-        catch(FileNotFoundException e){
-            e.printStackTrace();//System.out.println("File Not Found");
+        catch(Exception e){}
+
+        // If login credentials were correct then we save it in our global variables
+
+        try{
+            JsonObject tempUser = CurrentUserData.currentUser;
+            
+            CurrentUserData.playlist.remove(playlistField.getText());
+            CurrentUserData.playlistItems.removeAll(playlistField.getText());
+            listForPlaylists.setItems(CurrentUserData.playlistItems);
+
+            tempUser.add("playlists", jsonParser.parse(gson.toJson(CurrentUserData.playlist)));
         }
-        catch(IOException e){
-            e.printStackTrace();//System.out.println("IO");
-        }
-        catch (Exception e){ //e.printStackTrace();
+        catch(Exception e){
+
         }
 
-        JsonObject tempUser = CurrentUserData.currentUser;
-
-        CurrentUserData.playlistItems.removeAll(playlistField.getText());
-        CurrentUserData.playlist.remove(playlistField.getText());
-        listForPlaylists.setItems(CurrentUserData.playlistItems);
-
-        tempUser.add("playlists", jsonParser.parse(gson.toJson(CurrentUserData.playlist)));
-        userList.add(CurrentUserData.userSignedIn, tempUser);
-
-        //Write to file
-        try (FileWriter fileWriter = new FileWriter(userFile)){
-            gson.toJson(userList,fileWriter);
-        }
-        catch(IOException e){
-            //e.printStackTrace();
-            System.out.println("File failed to write");
-        }
-        catch (Exception e){}
-        
         Parent root = FXMLLoader.load(getClass().getResource("/profile.fxml"));
         Stage stage = (Stage) linkSearch.getScene().getWindow();
         stage.setScene(new Scene(root));

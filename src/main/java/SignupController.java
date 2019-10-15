@@ -13,6 +13,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.io.*;
 import com.google.gson.*;
+import java.net.*; 
 
 public class SignupController implements Initializable {
 
@@ -42,63 +43,29 @@ public class SignupController implements Initializable {
 
     @FXML
     void signup(MouseEvent event) throws Exception {
-
-        //Create JSON and GSON objects
-        JsonObject userList = new JsonObject();
-        String userFile = "users.json";
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
         //Open file and gather list of users from users.json
         JsonParser jsonParser = new JsonParser();
-        try(FileReader fileReader = new FileReader((userFile));){
-            userList = jsonParser.parse(fileReader).getAsJsonObject();
-        }
-        catch(FileNotFoundException e){
-            e.printStackTrace();//System.out.println("File Not Found");
-        }
-        catch(IOException e){
-            e.printStackTrace();//System.out.println("IO");
-        }
-        catch (Exception e){ //e.printStackTrace();
-        }
 
-        // Saving our email and pass in a JSONObject
-        JsonObject userDetails = new JsonObject();
-        userDetails.addProperty("email", tf_email.getText());
-        userDetails.addProperty("password", pf_password.getText());
-        
-        // Create a playlist object in our current user to keep track of their playlists.
-        JsonArray playlist = new JsonArray();
-        userDetails.add("playlists", playlist);
+        try{
+            String json = "{\r\n        \"remoteMethod\":\"signup\",\r\n        \"objectName\":\"UserServices\",\r\n        \"param\": {\r\n            \"username\": \"" + tf_username.getText() + "\",\r\n            \"password\": \"" + pf_password.getText() + "\",\r\n            \"email\": \"" + tf_email.getText() + "\"\r\n        },\r\n        \"return\": \"java.lang.String\"\r\n    }";
+            // getting localhost ip 
+            InetAddress ip = InetAddress.getByName("localhost"); 
+            byte[] buffer = json.getBytes();
+            // obtaining input and out streams 
+            DatagramPacket packet = new DatagramPacket(buffer, buffer.length, ip, 1337); 
+            DatagramSocket ds = new DatagramSocket(); 
+            ds.send(packet);
+            byte[] buf = new byte[8192];
+            DatagramPacket p = new DatagramPacket(buf, buf.length);
+            ds.receive(p);
+            String outty = new String(buf, 0, p.getLength());
+            JsonObject jo = (JsonObject) jsonParser.parse(outty);
+            System.out.println(jo);
+            String result = jo.get("ret").getAsString();
 
-        // User exists flag
-        boolean userExists = false;
+        }
+        catch(Exception e){}
 
-        //Check if user exists
-        try {
-            JsonObject user = userList.get(tf_username.getText()).getAsJsonObject();
-            userExists = true;
-        }
-        catch (NullPointerException e){}
-        catch (Exception e){}
-
-        // if user doesn't exist, don't add it and error out.
-        // if user does exist, add user.
-        if(!userExists){
-            userList.add(tf_username.getText(), userDetails);
-            
-            try (FileWriter fileWriter = new FileWriter(userFile)){
-                gson.toJson(userList,fileWriter);
-            }
-            catch(IOException e){
-                //e.printStackTrace();
-                System.out.println("File failed to write");
-            }
-            catch (Exception e){}
-        }
-        else{
-            System.out.println("File add user.");
-        }
     }
 
     // Required function in case any logic is needed before rendering the view.

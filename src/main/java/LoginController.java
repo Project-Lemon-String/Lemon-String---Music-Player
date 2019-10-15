@@ -15,6 +15,7 @@ import java.util.ResourceBundle;
 import java.util.*;
 import java.io.*;
 import com.google.gson.*;
+import java.net.*; 
 
 public class LoginController implements Initializable {
 
@@ -33,51 +34,46 @@ public class LoginController implements Initializable {
 
     @FXML
     void login(MouseEvent event) throws Exception{
-
-        JsonObject userList = new JsonObject();
-        String userFile = "users.json";
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
-        // Open file
+        Gson gson = new Gson();
         JsonParser jsonParser = new JsonParser();
-        try(FileReader fileReader = new FileReader((userFile));){
-            userList = jsonParser.parse(fileReader).getAsJsonObject();
-        }
-        catch(FileNotFoundException e){
-            e.printStackTrace();//System.out.println("File Not Found");
-        }
-        catch(IOException e){
-            e.printStackTrace();//System.out.println("IO");
-        }
-        catch (Exception e){ //e.printStackTrace();
-        }
-
-        // Flags to keep track of failedLogin
         boolean failedLogin = false;
-        JsonObject user;
+        try{
+            String json = "{\r\n        \"remoteMethod\":\"login\",\r\n        \"objectName\":\"UserServices\",\r\n        \"param\": {\r\n            \"username\": \"" + tf_username.getText() + "\",\r\n            \"password\": \"" + tf_password.getText() + "\"\r\n        },\r\n        \"return\": \"java.lang.String\"\r\n    }";
+            // getting localhost ip 
+            InetAddress ip = InetAddress.getByName("localhost"); 
+            byte[] buffer = json.getBytes();
+            // obtaining input and out streams 
+            DatagramPacket packet = new DatagramPacket(buffer, buffer.length, ip, 1337); 
+            DatagramSocket ds = new DatagramSocket(); 
+            ds.send(packet);
+            byte[] buf = new byte[8192];
+            DatagramPacket p = new DatagramPacket(buf, buf.length);
+            ds.receive(p);
+            String outty = new String(buf, 0, p.getLength());
+            JsonObject jo = (JsonObject) jsonParser.parse(outty);
+            System.out.println(jo);
+            String result = jo.get("ret").getAsString();
 
-        //Check if user exists and if password matches our users.json
-        try {
-            user = userList.get(tf_username.getText()).getAsJsonObject();
-            CurrentUserData.currentUser = user;
-            System.out.println(tf_username);
-            System.out.println(user);
-
-            if(user!=null){
-                String checkPassword = user.get("password").getAsString();
-
-                if(!(checkPassword.equals(tf_password.getText()))){
-                    failedLogin = true;;
-                }
-            }else{
+            //CurrentUserData.currentUser = jo.get("userData").getAsString();
+            try{
+                String userDataStr = jo.get("userData").getAsString();
+                CurrentUserData.currentUser = new JsonParser().parse(userDataStr).getAsJsonObject();
+            }
+            catch(Exception e){
+                failedLogin = true;
+            }            
+            
+            if(result.equals("failed")){
                 failedLogin = true;
             }
+
         }
         catch(Exception e){}
 
         // If login credentials were correct then we save it in our global variables
         if(!failedLogin){
             try{
+
                 CurrentUserData.userSignedIn = tf_username.getText();
                 JsonElement playlistTemp = CurrentUserData.currentUser.get("playlists");
 

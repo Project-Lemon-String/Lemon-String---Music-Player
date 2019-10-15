@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import com.google.gson.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import java.net.*;
 
 public class SearchController implements Initializable{
 
@@ -40,40 +41,43 @@ public class SearchController implements Initializable{
 
     @FXML
     void search(MouseEvent event) throws Exception{
-
+        Gson gson = new Gson();
+        JsonParser jsonParser = new JsonParser();
         CurrentUserData.songSearchListItems.clear();
 
-        String keyword = tf_search.getText();
+        try{
+            String json = "{\r\n        \"remoteMethod\":\"searchSong\",\r\n        \"objectName\":\"UserServices\",\r\n        \"param\": {\r\n            \"key\": \"" + tf_search.getText() + "\"\r\n        },\r\n        \"return\": \"java.lang.String\"\r\n    }";
+            // getting localhost ip 
+            InetAddress ip = InetAddress.getByName("localhost"); 
+            byte[] buffer = json.getBytes();
+            // obtaining input and out streams 
+            DatagramPacket packet = new DatagramPacket(buffer, buffer.length, ip, 1337); 
+            DatagramSocket ds = new DatagramSocket(); 
+            ds.send(packet);
+            byte[] buf = new byte[8192];
+            DatagramPacket p = new DatagramPacket(buf, buf.length);
+            ds.receive(p);
+            String outty = new String(buf, 0, p.getLength());
+            JsonObject jo = (JsonObject) jsonParser.parse(outty);
+            System.out.println(jo);
+            String result = jo.get("ret").getAsString();
 
-        JsonParser jsonParser =  new JsonParser();
-        JsonArray musicList = new JsonArray();
+            //CurrentUserData.currentUser = jo.get("userData").getAsString();
+            try{
+                JsonArray finalMatch = (JsonArray) jo.get("finalMatches");
+                
+                for(JsonElement song: finalMatch){
+                    CurrentUserData.songSearchListItems.add(song.getAsString());
+                }
 
-        try(FileReader fileReader = new FileReader(("music.json"));){
-            musicList = jsonParser.parse(fileReader).getAsJsonArray();
-        }
-        catch(FileNotFoundException e){}
-        catch(IOException e){}
-
-        ArrayList<JsonObject> matches = new ArrayList<>();
-
-        for(int i = 0; i < musicList.size(); i++){
-            JsonObject songInfo = musicList.get(i).getAsJsonObject();
-            JsonObject artist = songInfo.get("artist").getAsJsonObject();
-            JsonObject song = songInfo.get("song").getAsJsonObject();
-            String artistName = artist.get("name").getAsString();
-            String songTitle = song.get("title").getAsString();
-            if(artistName.equalsIgnoreCase(keyword) || songTitle.equalsIgnoreCase(keyword)){
-                matches.add(songInfo);
+                listForSongs.setItems(CurrentUserData.songSearchListItems);
             }
+            catch(Exception e){
+            }            
+            
+
         }
-
-        for(JsonObject el: matches){
-            CurrentUserData.songSearchListItems.add(el.get("artist").getAsJsonObject().get("name").getAsString() + " - " + el.get("song").getAsJsonObject().get("title").getAsString());
-        }
-
-        System.out.print(CurrentUserData.songSearchListItems);
-
-        listForSongs.setItems(CurrentUserData.songSearchListItems);
+        catch(Exception e){}
 
         Parent root = FXMLLoader.load(getClass().getResource("/search.fxml"));
         Stage stage = (Stage) linkSearch.getScene().getWindow();

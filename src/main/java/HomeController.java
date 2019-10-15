@@ -14,8 +14,10 @@ import javafx.scene.text.Text;
 import javafx.scene.input.MouseEvent;
 import java.io.FileInputStream;
 import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.*;
 import javazoom.jl.player.Player;
+import java.net.*;
+import com.google.gson.*;
 
 public class HomeController implements Initializable {
 
@@ -36,10 +38,25 @@ public class HomeController implements Initializable {
     // Need to implement pause feature and it's view.
     @FXML
     void playMusic(MouseEvent event) throws Exception{
-        //add multihtreading
-        PlaySong ps = new PlaySong();
-        new Thread(ps).start();
-
+        JsonParser jsonParser = new JsonParser();
+        try{
+            String json = "{\r\n        \"remoteMethod\":\"playSong\",\r\n        \"objectName\":\"SongServices\",\r\n        \"param\": {\r\n            \"songId\": \"imperial.mp3\"\r\n        },\r\n        \"return\": \"java.lang.String\"\r\n    }";
+            // getting localhost ip 
+            InetAddress ip = InetAddress.getByName("localhost"); 
+            byte[] buffer = json.getBytes();
+            // obtaining input and out streams 
+            DatagramPacket packet = new DatagramPacket(buffer, buffer.length, ip, 1337); 
+            DatagramSocket ds = new DatagramSocket(); 
+            ds.send(packet);
+            byte[] buf = new byte[8192];
+            DatagramPacket p = new DatagramPacket(buf, buf.length);
+            ds.receive(p);
+            String outty = new String(buf, 0, p.getLength());
+            JsonObject jo = (JsonObject) jsonParser.parse(outty);
+            System.out.println(jo);
+            String result = jo.get("ret").getAsString();
+        }
+        catch(Exception e){}
     }
 
     // Switches to the Profile page view.
