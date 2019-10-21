@@ -1,23 +1,21 @@
-import javafx.application.Application;
-import javafx.fxml.Initializable;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.Stage;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
-import javafx.scene.text.Text;
 import javafx.scene.input.MouseEvent;
-import java.io.FileInputStream;
-import java.net.URL;
-import java.util.*;
-import javazoom.jl.player.Player;
-import java.net.*;
-import com.google.gson.*;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class HomeController implements Initializable {
 
@@ -40,21 +38,22 @@ public class HomeController implements Initializable {
     void playMusic(MouseEvent event) throws Exception{
         JsonParser jsonParser = new JsonParser();
         try{
-            String json = "{\r\n        \"remoteMethod\":\"playSong\",\r\n        \"objectName\":\"SongServices\",\r\n        \"param\": {\r\n            \"songId\": \"imperial.mp3\"\r\n        },\r\n        \"return\": \"java.lang.String\"\r\n    }";
-            // getting localhost ip 
-            InetAddress ip = InetAddress.getByName("localhost"); 
-            byte[] buffer = json.getBytes();
-            // obtaining input and out streams 
-            DatagramPacket packet = new DatagramPacket(buffer, buffer.length, ip, 1337); 
-            DatagramSocket ds = new DatagramSocket(); 
-            ds.send(packet);
-            byte[] buf = new byte[8192];
-            DatagramPacket p = new DatagramPacket(buf, buf.length);
-            ds.receive(p);
-            String outty = new String(buf, 0, p.getLength());
-            JsonObject jo = (JsonObject) jsonParser.parse(outty);
-            System.out.println(jo);
-            String result = jo.get("ret").getAsString();
+            String json = verifyRequest("playSong", "SongServices", "imperial.mp3");
+            if(!json.equals("FailedToQuery")){
+                // getting localhost ip 
+                InetAddress ip = InetAddress.getByName("localhost"); 
+                byte[] buffer = json.getBytes();
+                // obtaining input and out streams 
+                DatagramPacket packet = new DatagramPacket(buffer, buffer.length, ip, 1337); 
+                DatagramSocket ds = new DatagramSocket(); 
+                ds.send(packet);
+                byte[] buf = new byte[8192];
+                DatagramPacket p = new DatagramPacket(buf, buf.length);
+                ds.receive(p);
+                String outty = new String(buf, 0, p.getLength());
+                JsonObject jo = (JsonObject) jsonParser.parse(outty);
+                System.out.println(jo);
+            }
         }
         catch(Exception e){}
     }
@@ -78,6 +77,11 @@ public class HomeController implements Initializable {
     // Required function in case any logic is needed before rendering the view.
     public void initialize(URL location, ResourceBundle resources){
         
+    }
+
+    public String verifyRequest(String method, String objectName, String songId){
+        // Check if valid query from catalog.json
+        return "{\r\n        \"remoteMethod\":\"" + method + "\",\r\n        \"objectName\":\"" + objectName + "\",\r\n        \"param\": {\r\n            \"songId\": \"" + songId + "\"\r\n        },\r\n        \"return\": \"java.lang.String\"\r\n    }";
     }
 
 }

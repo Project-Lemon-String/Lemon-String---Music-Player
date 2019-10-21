@@ -1,0 +1,55 @@
+[
+    {
+        "remoteMethod":"login",
+        "objectName":"UserServices",
+        "param": {
+            "username": "java.lang.String",
+            "password": "java.lang.String"
+        },
+        "return": "java.lang.String"
+    },
+    {
+        "remoteMethod":"signup",
+        "objectName":"UserServices",
+        "param": {
+            "username": "java.lang.String",
+            "password": "java.lang.String",
+            "email": "java.lang.String"
+        },
+        "return": "java.lang.String"
+    },
+    {
+        "remoteMethod":"addPlaylist",
+        "objectName":"UserServices",
+        "param": {
+            "username": "java.lang.String",
+            "playlistName": "java.lang.String"
+        },
+        "return": "java.lang.String"
+    },
+    {
+        "remoteMethod":"deletePlaylist",
+        "objectName":"UserServices",
+        "param": {
+            "username": "java.lang.String",
+            "playlistName": "java.lang.String"
+        },
+        "return": "java.lang.String"
+    },
+    {
+        "remoteMethod":"searchSong",
+        "objectName":"UserServices",
+        "param": {
+            "key": "java.lang.String"
+        },
+        "return": "java.lang.String"
+    },
+    {
+        "remoteMethod":"playSong",
+        "objectName":"SongServices",
+        "param": {
+            "songId": "java.lang.String"
+        },
+        "return": "java.lang.String"
+    }
+]

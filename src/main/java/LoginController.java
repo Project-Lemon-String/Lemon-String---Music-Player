@@ -1,21 +1,27 @@
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import javafx.collections.FXCollections;
-import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.Stage;
+import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Button;
-import javafx.scene.text.Text;
 import javafx.scene.input.MouseEvent;
-import java.net.URL;
-import java.util.ResourceBundle;
-import java.util.*;
-import java.io.*;
-import com.google.gson.*;
-import java.net.*; 
+import javafx.scene.text.Text;
+import javafx.stage.Stage; 
 
 public class LoginController implements Initializable {
 
@@ -38,7 +44,7 @@ public class LoginController implements Initializable {
         JsonParser jsonParser = new JsonParser();
         boolean failedLogin = false;
         try{
-            String json = "{\r\n        \"remoteMethod\":\"login\",\r\n        \"objectName\":\"UserServices\",\r\n        \"param\": {\r\n            \"username\": \"" + tf_username.getText() + "\",\r\n            \"password\": \"" + tf_password.getText() + "\"\r\n        },\r\n        \"return\": \"java.lang.String\"\r\n    }";
+            String json = verifyRequest("login", "UserServices", tf_username.getText(), tf_password.getText());
             // getting localhost ip 
             InetAddress ip = InetAddress.getByName("localhost"); 
             byte[] buffer = json.getBytes();
@@ -109,6 +115,11 @@ public class LoginController implements Initializable {
     // Required function in case any logic is needed before rendering the view.
     public void initialize(URL location, ResourceBundle resources){
 
+    }
+
+    public String verifyRequest(String method, String objectName, String username, String password){
+        // Check if valid query from catalog.json
+        return  "{\r\n        \"remoteMethod\":\"login\",\r\n        \"objectName\":\"UserServices\",\r\n        \"param\": {\r\n            \"username\": \"" + username + "\",\r\n            \"password\": \"" + password + "\"\r\n        },\r\n        \"return\": \"java.lang.String\"\r\n    }";
     }
 
 }
